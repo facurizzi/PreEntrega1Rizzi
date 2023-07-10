@@ -47,4 +47,5 @@ if(imc > pesoSuperior){
 
 function calculo(altura,peso){
     imc = peso / (altura * altura);
+    imc = imc.toFixed(2);
 }
