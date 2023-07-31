@@ -82,6 +82,7 @@ function filtrarPersona(){
         console.table(resultado)
     }else{
         alert("No se encontro a la persona que buscas")
+        return
     }
 }
 
