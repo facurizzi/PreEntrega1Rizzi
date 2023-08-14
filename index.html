@@ -3,10 +3,69 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/bootstrap.min.css">
+    <link rel="stylesheet" href="./css/style.css">
     <title>Calculadora de IMC(indice de masa corporal)</title>
 </head>
 <body>
+    <header>
+
+        <h1>Calculadora de IMC(indice de masa corporal)</h1>
+    </header>
+    <main>
+        <div class="principal">          
+            <form id="formulario">
+                <fieldset>
+                     <ul>
+                        <li>
+                               <label id="Nombre" >Nombre:</label>
+                               <input class="input" name="Nombre" id="Nombre" type="text"required width="300px">
+                        </li>
+                        <li>
+                               <label id="Apellido">Apellido:</label>
+                               <input class="input" id="Apellido" type="text" required width="300px">
+                        </li>
+                        <li>
+                                <label id="Altura">Altura:</label>
+                                <input class="input" name="Altura" id="Altura" type="number" required width="300px">
+                        </li>
+                        <li>
+                                <label id="Peso">Peso:</label>
+                                <input class="input" name="Peso" id="Peso" type="number" required width="300px">
+                        </li>
+                        <li>
+                              <div class="checkbox">
+                                   <input id="check" type="checkbox" required >
+                                   <a href="#">He leido y acepto la politica de privacidad</a>
+                              </div>
+                        </li>
+                        <li>
+                              <input class="boton" id="enviar" type="submit" value="Enviar"></input>
+                        </li>
+                        <li>
+                            <div id="contenedor"></div>
+                        </li>
+                  </ul>
+                  <p>LISTA DE PACIENTES</p>
+                  <ul id="mostrados">
+
+                  </ul>
+               </fieldset>
+            </form>
+          
+        </div>
+    </main>
+    <footer>
+        <p>Se reservan los derechos - Página creada por Rizzi Facundo </p>
+    </footer>
+
+
+
     
     <script src="main.js"></script>
+    <script src="./js/bootstrap.min.js"></script>
 </body>
 </html>
+
+
+

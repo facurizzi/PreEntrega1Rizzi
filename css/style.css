@@ -1,0 +1,81 @@
+* {
+    margin: 0;
+    padding: 0;
+  }
+
+header{
+    width: 100%;
+    height: 10vh; 
+    background-color: #64A5E3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+main{
+    width: 100%;
+    height: 85vh; 
+    background-color: #7CAECB;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.principal{
+    width: 30vw;
+    height: auto;
+    background-color: pink;
+}
+footer{
+    width: 100%;
+    height: 5vh; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+/*FORMULARIO CON LA UL Y LAS LI*/
+form, form ul{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 0px 0px;
+}
+form ul{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap:12px;
+}
+form li{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap:12px;
+    }
+.input{
+    width: 400px;
+    background-color: rgb(199, 189, 189);
+}
+.checkbox{
+    display: flex;
+    justify-content: start;
+    gap: 12px;
+}
+.boton{
+    width: 5vw;
+    height: auto;
+}
+
+#contenedor{
+    width: auto;
+    height: auto;
+    background-color: blue;
+    color: white;
+}
+
+#mostrados{
+    background-color: blue;
+    color: white;
+}

@@ -1,5 +1,5 @@
 //IMC=peso(kg)/(estatura(m))2
-let altura,peso,imc;
+let altura,peso,imc,nombre;
 const pesoInferior = 18.5;
 const normal = 24.9;
 const pesoSuperior = 29.9;
@@ -19,55 +19,73 @@ let persona5 = new Persona("juan", 1.81, 85)
 
 let lista = [persona1,persona2,persona3,persona4,persona5]
 
-    inicio = parseInt(prompt("ingresa 1 para buscar una persona, 2 para agregar persona , 3 para calcular el IMC"))
 
-    if(inicio==1)
-    {
-        filtrarPersona();
-    }
-    if(inicio==2)
-    {
-        agregarPersona();
-    }
-    if(inicio==3)
-    {
-        while(true){
-            altura = parseInt(prompt("Ingresá tu altura en centímetros(Ejemplo: 170cm)"))
+let miFormulario=document.getElementById("formulario");
+miFormulario.addEventListener("submit", iniciar);
+
+function iniciar(e){
+    e.preventDefault();
+
+    nombre=document.getElementsByName('Nombre')[0].value
+    altura=document.getElementsByName('Altura')[0].value;
+    peso=document.getElementsByName('Peso')[0].value;
+
     
-                if(!isNaN(altura) && altura != null && altura != "" && altura < 250 && altura > 30){
+    
+                    if(!isNaN(altura) && altura != null && altura != "" && altura < 250 && altura > 30){
                     altura = altura / 100 ; 
-                    break;
+                    
                 }else{
                     alert("No es una altura valida, vuelva a ingresar");
-                    continue;
                 }
-        }
-        while(true){
-            peso = parseInt(prompt("Ingresá tu peso en kilos(Ejemplo: 85kg)"))
-    
-                if(!isNaN(peso) && peso != null && peso != "" && peso < 300 && peso > 30){
-                    break;
+        
+        
+            if(!isNaN(peso) && peso != null && peso != "" && peso < 300 && peso > 30){
+                    
                 }else{
                     alert("no es un peso valido");
-                    continue;
                 }
-        }
+        
     
         calculo(altura,peso);
+
+        agregarPersona(nombre,altura,peso);
+
+        guardarlista();
+
+        let container = document.getElementById("contenedor")
     
         if(imc < pesoInferior){
-            alert("Tu peso es inferior al normal, tu IMC es "+imc);
+            container.innerHTML ="Tu peso es inferior al normal, tu IMC es "+imc;
         }else if(imc < normal){
-                alert("Tu peso es Normal, tu IMC es "+imc);
+            container.innerHTML ="Tu peso es Normal, tu IMC es "+imc;
         }else if(imc < pesoSuperior){
-            alert("Tu peso es superior al normal, tu IMC es "+imc);
+            container.innerHTML ="Tu peso es superior al normal, tu IMC es "+imc;
         }else{
-            alert("Tu peso ya es Obesidad, tu IMC es "+imc);
+            container.innerHTML ="Tu peso ya es Obesidad, tu IMC es "+imc;
         }
-    }
 
+        mostrar();
 
-   
+        
+
+}
+
+function guardarlista(){
+    const listaJSON = JSON.stringify(lista);
+    localStorage.setItem("listaData",listaJSON);
+}
+
+function mostrar(){
+    const muestra =document.getElementById("mostrados");
+    muestra.innerHTML = "";
+
+    lista.forEach((Persona)=>{
+        const listlista = document.createElement("li")
+        listlista.textContent= `${Persona.nombre} - Altura: ${Persona.altura} - Peso: ${Persona.peso}`
+        muestra.appendChild(listlista)
+    })
+}   
 
 function calculo(altura,peso){
     imc = peso / (altura * altura);
@@ -86,19 +104,13 @@ function filtrarPersona(){
     }
 }
 
-function agregarPersona(){
+function agregarPersona(nombre,altura,peso){
 
-    let nombrenuevo = prompt("ingresa el nombre de la persona")
-    let alturanueva = parseFloat(prompt("ingresa la altura en metros"))
-    let pesonuevo = parseFloat(prompt("ingresa el peso de la persona "))
-
-    if(isNaN(alturanueva) || isNaN(pesonuevo || nombrenuevo==="")){
-        alert("ingresa datos de personas validos")
-        return
-    }
+    let nombrenuevo = nombre;
+    let alturanueva = altura;
+    let pesonuevo = peso;
 
     let personanueva = new Persona(nombrenuevo,alturanueva,pesonuevo)
     lista.push(personanueva)
-    console.table(lista)
 }
 
