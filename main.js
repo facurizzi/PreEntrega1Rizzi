@@ -4,27 +4,35 @@ const pesoInferior = 18.5;
 const normal = 24.9;
 const pesoSuperior = 29.9;
 let seguir,inicio;
+let lista = [];
 
 const Persona = function(nombre,altura,peso){
-    this.nombre=nombre;
-    this.altura=altura;
-    this.peso=peso;
+        this.nombre=nombre;
+        this.altura=altura;
+        this.peso=peso;
 }
 
-let persona1 = new Persona("facundo", 1.59, 80)
-let persona2 = new Persona("alejandro", 1.65, 86)
-let persona3 = new Persona("matias", 1.67, 73)
-let persona4 = new Persona("lucas", 1.84, 91)
-let persona5 = new Persona("juan", 1.81, 85)
 
-let lista = [persona1,persona2,persona3,persona4,persona5]
+//let persona1 = new Persona("facundo", 1.59, 80)
+//let persona2 = new Persona("alejandro", 1.65, 86)
+//let persona3 = new Persona("matias", 1.67, 73)
+//let persona4 = new Persona("lucas", 1.84, 91)
+//let persona5 = new Persona("juan", 1.81, 85)
 
+//let lista = [persona1,persona2,persona3,persona4,persona5]
+
+
+
+traerlista();
+mostrar();
 
 let miFormulario=document.getElementById("formulario");
 miFormulario.addEventListener("submit", iniciar);
 
 function iniciar(e){
     e.preventDefault();
+    
+    
 
     nombre=document.getElementsByName('Nombre')[0].value
     altura=document.getElementsByName('Altura')[0].value;
@@ -36,14 +44,17 @@ function iniciar(e){
                     altura = altura / 100 ; 
                     
                 }else{
-                    alert("No es una altura valida, vuelva a ingresar");
+                    let container = document.getElementById("error")
+                    container.innerHTML ="ERROR EN ALTURA INGRESADA";
+                    
                 }
         
         
             if(!isNaN(peso) && peso != null && peso != "" && peso < 300 && peso > 30){
                     
                 }else{
-                    alert("no es un peso valido");
+                    let container = document.getElementById("error")
+                    container.innerHTML ="ERROR EN PESO INGRESADA";
                 }
         
     
@@ -52,6 +63,8 @@ function iniciar(e){
         agregarPersona(nombre,altura,peso);
 
         guardarlista();
+        mostrar();
+        
 
         let container = document.getElementById("contenedor")
     
@@ -65,10 +78,7 @@ function iniciar(e){
             container.innerHTML ="Tu peso ya es Obesidad, tu IMC es "+imc;
         }
 
-        mostrar();
-
         
-
 }
 
 function guardarlista(){
@@ -76,10 +86,21 @@ function guardarlista(){
     localStorage.setItem("listaData",listaJSON);
 }
 
+function traerlista(){
+    if(localStorage.getItem("listaData")){
+        almacenados = JSON.parse(localStorage.getItem("listaData"));
+
+        for (const objeto of almacenados)
+            lista.push(new Persona(objeto.nombre,objeto.altura,objeto.peso))
+    }
+
+}
+
 function mostrar(){
     const muestra =document.getElementById("mostrados");
     muestra.innerHTML = "";
 
+    if(lista)
     lista.forEach((Persona)=>{
         const listlista = document.createElement("li")
         listlista.textContent= `${Persona.nombre} - Altura: ${Persona.altura} - Peso: ${Persona.peso}`
@@ -99,7 +120,7 @@ function filtrarPersona(){
     if(resultado.length > 0){
         console.table(resultado)
     }else{
-        alert("No se encontro a la persona que buscas")
+        //alert("No se encontro a la persona que buscas")
         return
     }
 }

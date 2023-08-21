@@ -74,6 +74,12 @@ form li{
     background-color: blue;
     color: white;
 }
+#error{
+    width: auto;
+    height: auto;
+    background-color: blue;
+    color: white;
+}
 
 #mostrados{
     background-color: blue;
