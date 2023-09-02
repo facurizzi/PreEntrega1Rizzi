@@ -137,8 +137,8 @@ document.addEventListener("DOMContentLoaded", function () {
         fetch("info.json")
             .then(response => response.json())
             .then(data => {
-                let infoIMCContainer = document.getElementById("infoIMCContainer");
-                infoIMCContainer.innerHTML = `
+                let infoIMC = document.getElementById("infoIMC");
+                infoIMC.innerHTML = `
                     <h3>${data.title}</h3>
                     <p>${data.description}</p>
                 `;
