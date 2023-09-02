@@ -9,7 +9,6 @@
 </head>
 <body>
     <header>
-
         <h1>Calculadora de IMC(indice de masa corporal)</h1>
     </header>
     <main>
@@ -19,19 +18,19 @@
                      <ul>
                         <li>
                                <label id="Nombre" >Nombre:</label>
-                               <input class="input" name="Nombre" id="Nombre" type="text"required width="300px">
+                               <input class="input" name="Nombre" id="Nombre" type="text"required >
                         </li>
                         <li>
                                <label id="Apellido">Apellido:</label>
-                               <input class="input" id="Apellido" type="text" required width="300px">
+                               <input class="input" id="Apellido" type="text" required >
                         </li>
                         <li>
                                 <label id="Altura">Altura:</label>
-                                <input class="input" name="Altura" id="Altura" type="number" required width="300px">
+                                <input class="input" name="Altura" id="Altura" type="number" required >
                         </li>
                         <li>
                                 <label id="Peso">Peso:</label>
-                                <input class="input" name="Peso" id="Peso" type="number" required width="300px">
+                                <input class="input" name="Peso" id="Peso" type="number" required >
                         </li>
                         <li>
                               <div class="checkbox">
@@ -55,6 +54,8 @@
                   </ul>
                </fieldset>
             </form>
+            <button id="obtenerInfoIMCBtn">Te gustaría saber mas sobre el IMC, TOCA ACÁ</button>
+                <div id="infoIMCContainer"></div>
           
         </div>
     </main>
@@ -64,7 +65,7 @@
 
 
 
-    
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     <script src="main.js"></script>
     <script src="./js/bootstrap.min.js"></script>
 </body>

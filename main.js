@@ -1,137 +1,154 @@
 //IMC=peso(kg)/(estatura(m))2
-let altura,peso,imc,nombre;
-const pesoInferior = 18.5;
-const normal = 24.9;
-const pesoSuperior = 29.9;
-let seguir,inicio;
-let lista = [];
+document.addEventListener("DOMContentLoaded", function () {
+    let altura, peso, imc, nombre, valido;
 
-const Persona = function(nombre,altura,peso){
-        this.nombre=nombre;
-        this.altura=altura;
-        this.peso=peso;
-}
+    const pesoInferior = 18.5;
+    const normal = 24.9;
+    const pesoSuperior = 29.9;
+    let lista = [];
 
+    const Persona = function (nombre, altura, peso) {
+        this.nombre = nombre;
+        this.altura = altura;
+        this.peso = peso;
+    }
 
-//let persona1 = new Persona("facundo", 1.59, 80)
-//let persona2 = new Persona("alejandro", 1.65, 86)
-//let persona3 = new Persona("matias", 1.67, 73)
-//let persona4 = new Persona("lucas", 1.84, 91)
-//let persona5 = new Persona("juan", 1.81, 85)
+    traerlista();
+    mostrar();
 
-//let lista = [persona1,persona2,persona3,persona4,persona5]
+    let miFormulario = document.getElementById("formulario");
+    miFormulario.addEventListener("submit", iniciar);
 
+    let obtenerInfoIMCBtn = document.getElementById("obtenerInfoIMCBtn");
+    obtenerInfoIMCBtn.addEventListener("click", obtenerInfoIMC);
 
+    function iniciar(e) {
+        e.preventDefault();
 
-traerlista();
-mostrar();
+        nombre=document.getElementsByName('Nombre')[0].value
+        altura=document.getElementsByName('Altura')[0].value;
+        peso=document.getElementsByName('Peso')[0].value;
+        valido = true;
 
-let miFormulario=document.getElementById("formulario");
-miFormulario.addEventListener("submit", iniciar);
+        let errorContainer = document.getElementById("error");
+        errorContainer.innerHTML = "";
 
-function iniciar(e){
-    e.preventDefault();
-    
-    
-
-    nombre=document.getElementsByName('Nombre')[0].value
-    altura=document.getElementsByName('Altura')[0].value;
-    peso=document.getElementsByName('Peso')[0].value;
-
-    
-    
-                    if(!isNaN(altura) && altura != null && altura != "" && altura < 250 && altura > 30){
-                    altura = altura / 100 ; 
-                    
-                }else{
-                    let container = document.getElementById("error")
-                    container.innerHTML ="ERROR EN ALTURA INGRESADA";
-                    
-                }
         
-        
-            if(!isNaN(peso) && peso != null && peso != "" && peso < 300 && peso > 30){
-                    
-                }else{
-                    let container = document.getElementById("error")
-                    container.innerHTML ="ERROR EN PESO INGRESADA";
-                }
-        
-    
-        calculo(altura,peso);
-
-        agregarPersona(nombre,altura,peso);
-
-        guardarlista();
-        mostrar();
-        
-
-        let container = document.getElementById("contenedor")
-    
-        if(imc < pesoInferior){
-            container.innerHTML ="Tu peso es inferior al normal, tu IMC es "+imc;
-        }else if(imc < normal){
-            container.innerHTML ="Tu peso es Normal, tu IMC es "+imc;
-        }else if(imc < pesoSuperior){
-            container.innerHTML ="Tu peso es superior al normal, tu IMC es "+imc;
-        }else{
-            container.innerHTML ="Tu peso ya es Obesidad, tu IMC es "+imc;
+        if (!altura || isNaN(altura) || altura <= 30 || altura >= 250) {
+            mostrarError("Por favor, ingrese una altura válida (entre 30 y 250 cm).");
+            valido = false;
+        } else {
+            altura = altura / 100;
         }
 
-        
+        if (!peso || isNaN(peso) || peso <= 30 || peso >= 300) {
+            mostrarError("Por favor, ingrese un peso válido (entre 30 y 300 kg).");
+            valido = false;
+        }
+
+        if (valido) {
+            calculo(altura, peso);
+            agregarPersona(nombre, altura, peso);
+            guardarlista();
+            mostrar();
+
+            if (imc < pesoInferior) {
+                mostrarMensaje("Tu peso es inferior al normal, tu IMC es " + imc);
+            } else if (imc < normal) {
+                mostrarMensaje("Tu peso es Normal, tu IMC es " + imc);
+            } else if (imc < pesoSuperior) {
+                mostrarMensaje("Tu peso es superior al normal, tu IMC es " + imc);
+            } else {
+                mostrarMensaje("Tu peso ya es Obesidad, tu IMC es " + imc);
+            }
+        }
+
+
+
 }
 
-function guardarlista(){
-    const listaJSON = JSON.stringify(lista);
-    localStorage.setItem("listaData",listaJSON);
-}
-
-function traerlista(){
-    if(localStorage.getItem("listaData")){
-        almacenados = JSON.parse(localStorage.getItem("listaData"));
-
-        for (const objeto of almacenados)
-            lista.push(new Persona(objeto.nombre,objeto.altura,objeto.peso))
+    function mostrarError(mensaje) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: mensaje,
+            showCancelButton: true,
+            confirmButtonText: 'Reintentar',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                document.getElementById('Nombre').value = "";
+                document.getElementById('Altura').value = "";
+                document.getElementById('Peso').value = "";
+            }
+        });
     }
 
-}
+    function mostrarMensaje(mensaje) {
+        Swal.fire({
+            icon: 'info',
+            title: 'Resultado',
+            text: mensaje
+        });
+    }
 
-function mostrar(){
-    const muestra =document.getElementById("mostrados");
-    muestra.innerHTML = "";
+    function guardarlista() {
+        const listaJSON = JSON.stringify(lista);
+        localStorage.setItem("listaData", listaJSON);
+    }
 
-    if(lista)
-    lista.forEach((Persona)=>{
-        const listlista = document.createElement("li")
-        listlista.textContent= `${Persona.nombre} - Altura: ${Persona.altura} - Peso: ${Persona.peso}`
-        muestra.appendChild(listlista)
-    })
-}   
+    function traerlista() {
+        if (localStorage.getItem("listaData")) {
+            almacenados = JSON.parse(localStorage.getItem("listaData"));
 
-function calculo(altura,peso){
-    imc = peso / (altura * altura);
-    imc = imc.toFixed(2);
-}
+            for (const objeto of almacenados)
+                lista.push(new Persona(objeto.nombre, objeto.altura, objeto.peso))
+        }
+    }
 
-function filtrarPersona(){
-    let palabraclave = prompt("Ingresa el nombre de la persona que queres buscar").trim().toUpperCase()
-    let resultado = lista.filter( (persona)=> persona.nombre.toUpperCase().includes(palabraclave) )
+    function mostrar() {
+        const muestra = document.getElementById("mostrados");
+        muestra.innerHTML = "";
+
+        if (lista)
+            lista.forEach((Persona) => {
+                const listlista = document.createElement("li")
+                listlista.textContent = `${Persona.nombre} - Altura: ${Persona.altura} - Peso: ${Persona.peso}`
+                muestra.appendChild(listlista)
+            })
+    }
+
+    function calculo(altura, peso) {
+        imc = peso / (altura * altura);
+        imc = imc.toFixed(2);
+    }
+
+    function agregarPersona(nombre,altura,peso){
+
+        let nombrenuevo = nombre;
+        let alturanueva = altura;
+        let pesonuevo = peso;
     
-    if(resultado.length > 0){
-        console.table(resultado)
-    }else{
-        //alert("No se encontro a la persona que buscas")
-        return
+        let personanueva = new Persona(nombrenuevo,alturanueva,pesonuevo)
+        lista.push(personanueva)
     }
-}
 
-function agregarPersona(nombre,altura,peso){
+    function obtenerInfoIMC() {
+        fetch("info.json")
+            .then(response => response.json())
+            .then(data => {
+                let infoIMCContainer = document.getElementById("infoIMCContainer");
+                infoIMCContainer.innerHTML = `
+                    <h3>${data.title}</h3>
+                    <p>${data.description}</p>
+                `;
+            })
+            .catch(error => {
+                console.error("Error al cargar info.json: " + error);
+                mostrarError("No se pudo obtener información en este momento. Inténtalo más tarde.");
+            });
+    }
 
-    let nombrenuevo = nombre;
-    let alturanueva = altura;
-    let pesonuevo = peso;
-
-    let personanueva = new Persona(nombrenuevo,alturanueva,pesonuevo)
-    lista.push(personanueva)
-}
+    
+});
 
